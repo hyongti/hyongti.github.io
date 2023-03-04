@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -19,9 +15,8 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "*": [
-        "src/*"
-      ]
+      "contentlayer/generated": ["./.contentlayer/generated"],
+      "*": ["src/*"]
     },
     "plugins": [
       {
@@ -34,9 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/index.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".contentlayer/generated"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -1,13 +1,14 @@
+const { withContentlayer } = require("next-contentlayer");
 // @ts-check
 
 /**
  * @type {import('next').NextConfig}
  **/
-const nextConfig = {
+const nextConfig = withContentlayer({
   //   basePath: "/gh-pages-test",
-  experimental: {
-    appDir: true,
+  images: {
+    unoptimized: true,
   },
-};
+});
 
 module.exports = nextConfig;
