@@ -7,10 +7,11 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const MDXComponent = useMDXComponent(post.body.code);
   return (
     <Layout>
-      <div className="mt-10 prose">
+      {/* TODO: prose 관련 css 분리 */}
+      <article className="mt-10 prose prose-a:text-sky-500 prose-code:bg-orange-50 prose-code:text-red-400 prose-code:before:invisible prose-code:after:invisible prose-code:p-1 prose-code:rounded">
         <h1 className="text-sky-700">{post.title}</h1>
         <MDXComponent />
-      </div>
+      </article>
     </Layout>
   );
 };
