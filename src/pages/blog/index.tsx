@@ -8,13 +8,7 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
     <Layout>
       <div className={`mt-10 flex flex-col`}>
         {posts.map((post) => (
-          <BlogPost
-            date={post.date}
-            title={post.title}
-            des={post.description}
-            slug={post._raw.flattenedPath}
-            key={post._id}
-          />
+          <BlogPost key={post._id} post={post} />
         ))}
       </div>
     </Layout>

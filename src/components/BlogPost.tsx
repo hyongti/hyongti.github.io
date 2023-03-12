@@ -1,15 +1,19 @@
+import type { Post } from "contentlayer/generated";
 import Link from "next/link";
 
-const BlogPost = ({ date, title, des, slug }) => {
+interface Props {
+  post: Post;
+}
+
+const BlogPost = ({ post }: Props) => {
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={`/blog/${post._raw.flattenedPath}`}
       passHref
-      className="w-full my-7 hover:-translate-x-1.5"
+      className="w-full my-7"
     >
-      <div className="font-medium text-xs text-gray-400">{date}</div>
-      <div className={`font-extrabold text-2xl mt-2`}>{title}</div>
-      <div className={`font-medium text-gray-600 text-xl mt-1`}>{des}</div>
+      <div className="font-medium text-xs text-gray-400">{post.date}</div>
+      <div className={`font-extrabold text-2xl mt-2`}>{post.title}</div>
     </Link>
   );
 };

@@ -1,6 +1,11 @@
+import { Post } from "contentlayer/generated";
 import Link from "next/link";
 
-const RecentPost = ({ post }) => {
+interface Props {
+  post: Post;
+}
+
+const RecentPost = ({ post }: Props) => {
   return (
     <Link
       key={post._id}
@@ -9,7 +14,6 @@ const RecentPost = ({ post }) => {
       className="mt-5"
     >
       <div className={`font-medium text-xl`}>{post.title}</div>
-      <div className={`font-light`}>{post.description}</div>
     </Link>
   );
 };
