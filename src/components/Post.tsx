@@ -8,7 +8,7 @@ interface Props {
 const BlogPost = ({ post }: Props) => {
   return (
     <Link
-      href={`/blog/${post._raw.flattenedPath}`}
+      href={`/post/${post._raw.flattenedPath}`}
       passHref
       className="w-full my-7"
     >

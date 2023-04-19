@@ -9,7 +9,7 @@ const RecentPost = ({ post }: Props) => {
   return (
     <Link
       key={post._id}
-      href={`/blog/${post._raw.flattenedPath}`}
+      href={`/post/${post._raw.flattenedPath}`}
       passHref
       className="mt-5"
     >

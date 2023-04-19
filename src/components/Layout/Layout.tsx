@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Nav from "./Nav";
-import metadata from "data/metadats";
+import Nav from "./NavigationBar";
+import metadata from "const/metadats";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

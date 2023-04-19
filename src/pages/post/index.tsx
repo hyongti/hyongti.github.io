@@ -1,17 +1,15 @@
-import BlogPost from "components/BlogPost";
-import Layout from "components/Layout";
+import BlogPost from "components/Post";
+import Layout from "components/Layout/Layout";
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Layout>
-      <div className={`mt-10 flex flex-col`}>
-        {posts.map((post) => (
-          <BlogPost key={post._id} post={post} />
-        ))}
-      </div>
-    </Layout>
+    <div className={`mt-10 flex flex-col`}>
+      {posts.map((post) => (
+        <BlogPost key={post._id} post={post} />
+      ))}
+    </div>
   );
 };
 
