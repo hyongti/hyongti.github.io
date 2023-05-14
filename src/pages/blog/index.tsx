@@ -1,7 +1,6 @@
-import BlogPost from "components/Post";
-import Layout from "components/Layout/Layout";
-import { allPosts } from "contentlayer/generated";
-import { InferGetStaticPropsType } from "next";
+import BlogPost from 'components/Post';
+import { allPosts } from 'contentlayer/generated';
+import { InferGetStaticPropsType } from 'next';
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
