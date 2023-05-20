@@ -1,9 +1,12 @@
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
-import { useState } from "react";
-import Navlinks from "./Navlinks";
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
+import { useState } from 'react';
+import Navlinks from './Navlinks';
+import useIsBreakPoint from 'hooks/useIsBreakPoint';
 
 const Navbar = () => {
+  const isMobile = useIsBreakPoint();
+
   const [open, setOpen] = useState(false);
   return (
     // TODO: 애니메이션 개선 필요
@@ -16,7 +19,7 @@ const Navbar = () => {
           <button onClick={() => setOpen(!open)}>
             <ChevronDownIcon
               className={`w-4 h-4 text-black ${
-                open ? "-rotate-180" : "rotate-0"
+                open ? '-rotate-180' : 'rotate-0'
               } transition-transform`}
             />
           </button>
