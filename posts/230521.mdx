@@ -1,0 +1,118 @@
+---
+title: 맘에 쏙 드는 네비게이션바 만들기..(1)
+date: 2023-05-21
+description: 간단한 정리글
+---
+
+> 모든 움직임을 framer-motion으로 해결할 필요는 없었다...
+
+이 블로그를 반응형으로 만들고 싶은데 브레이크포인트마다 뚝뚝 끊기는 게 싫어서 일단 헤더의 navbar부터 수정을 시작했다.
+
+지금 하는 사이드 프로젝트에서 framer를 사용해 디자인 시스템을 작업하고, 아마도 애니메이션은 framer-motion을 사용할 것 같아서 헤더에도 framer-motion을 적용해볼까 했다.
+
+화면 크기에 따라 다른 애니메이션을 적용해야 한다는 생각에 구글에 framer-motion media query를 검색하고 useMediaQuery라는 훅을 베껴왔다.([이 블로그](https://samuelkraft.com/blog/responsive-animation-framer-motion)에서..)
+
+```
+import { useEffect, useState } from 'react';
+
+const useMediaQuery = ({ query }: { query: string }) => {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+
+    const listener = () => {
+      setMatches(media.matches);
+    };
+
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', listener);
+    } else {
+      media.addListener(listener);
+    }
+
+    return () => {
+      if (typeof media.removeEventListener === 'function') {
+        media.removeEventListener('change', listener);
+      } else {
+        media.removeListener(listener);
+      }
+    };
+  }, [matches, query]);
+
+  return matches;
+};
+
+export default useMediaQuery;
+
+```
+
+그리고 이런 훅도 만들었다.
+
+```
+import useMediaQuery from './useMediaQuery';
+
+const useIsMobile = () => useMediaQuery({ query: '(max-width: 640px)' });
+
+export default useIsMobile;
+```
+
+화면 상단 네비게이션 바의 왼쪽, 내 닉네임이 있는 부분(이하, 홈버튼)가 640px를 기준으로 그것보다 작으면 닉네임 왼쪽 공간이 좁고, 크면 왼쪽 공간도 넓기를 바랐다.
+그래서 대략 이런 식으로 코드를 작성했다.
+
+```
+const isMobile = useIsMobile();
+
+...
+return (
+    <motion.header
+      Layout
+      layoutRoot
+      initial={false}
+      animate={isMobile ? "mobile" : "desktop"}
+      className="sticky top-0 left-0 w-full bg-white opacity-80"
+    >
+      <nav className="w-full grid grid-cols-3 items-center relative h-16 px-2">
+        <motion.div
+          variants={{ mobile: { x: 0 }, desktop: { x: 5 } }}
+          transition={ ease: "easeOut", duration: 0.3 }
+        >
+          <Link
+            href="/"
+            className="font-extralight text-xl"
+          >
+            hyongti
+          </Link>
+      </motion.nav>
+    </motion.header>
+  );
+...
+```
+
+그런데... 새로고침을 할 때마다 홈버튼이 움직였다.
+모바일이면 모바일 위치에서, 데스크톱이면 데스크톱 위치에서 안 움직이길 바랐는데,
+useMediaQuery 훅이 컴포넌트가 마운트 된 후에 useEffect 내부에서 window.matchMedia를 통해 현재 스크린 사이즈를 비교해 state 값을 바꿔주기 때문이었다..
+
+모바일 사이즈든 데스크톱 사이즈든 새로고침 했을 때에는 애니메이션이 없이 홈버튼이 원하는 위치에 있었음 했는데, useMediaQuery는 그냥 베껴왔고, framer-motion은 처음 써보고..
+그래서 내가 애니메이션 설정을 잘못해줬나.. 생각하면서 css로만 해결할 수 있는 걸 오래 삽질했다..
+
+```
+...
+return (
+    <header className="sticky top-0 left-0 w-full bg-white opacity-80">
+      <nav className="w-full grid grid-cols-3 items-center relative h-16 px-2">
+        <Link
+          href="/"
+          className="font-extralight text-xl translate-x-0 transition-transform sm:translate-x-6 duration-300"
+        >
+          hyongti
+        </Link>
+        ...
+      </nav>
+    </header>
+  );
+...
+```
