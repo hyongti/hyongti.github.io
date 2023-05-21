@@ -9,7 +9,7 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Content>
       {/* TODO: prose 관련 css 설정 필요, 현재 링크나 코드블록도 그냥 검정 글씨 */}
-      <article className="mt-10 prose">
+      <article className="mt-10 prose w-full">
         <h1 className="text-sky-700">{post.title}</h1>
         <MDXComponent />
       </article>

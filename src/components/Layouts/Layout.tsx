@@ -1,5 +1,5 @@
-import Head from "next/head";
-import Navbar from "./Navbar";
+import Head from 'next/head';
+import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <link rel="icon" href="/logo.jpg" />
       </Head>
       <Navbar />
-      <main className="p-3">{children}</main>
+      <main className="p-3 w-full">{children}</main>
     </div>
   );
 };
