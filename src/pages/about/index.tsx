@@ -1,4 +1,4 @@
-import Content from "components/Layouts/Content";
+import Content from "components/layouts/Content";
 
 const about = () => {
   return (

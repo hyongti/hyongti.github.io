@@ -1,4 +1,4 @@
-import Content from "components/Layouts/Content";
+import Content from "components/layouts/Content";
 import Post from "components/Post";
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";

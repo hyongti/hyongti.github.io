@@ -8,21 +8,23 @@ import { useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useRouter();
-  // const { direction } = useScrollDirection();
+  const { direction } = useScrollDirection();
 
   return (
+    // TODO: 코드 정리 필요..
     <header
       className={`fixed top-0 left-0 w-full ${
-        open ? "translate-y-0 sm:-translate-y-1/2" : "-translate-y-1/2"
+        direction === "up"
+          ? open
+            ? "translate-y-0 sm:-translate-y-1/2"
+            : "-translate-y-1/2"
+          : "-translate-y-full"
       } h-32 bg-white opacity-80 transition-transform sm:overflow-y-hidden`}
     >
       <nav className="relative grid h-full w-full grid-cols-3 grid-rows-2 items-center px-2">
-        <Link
-          href="/"
-          className="row-start-2 w-fit translate-x-0 text-xl font-extralight transition-transform duration-300 sm:translate-x-6"
-        >
-          hyongti
-        </Link>
+        <div className="row-start-2 w-fit translate-x-0 text-xl font-extralight transition-transform duration-300 sm:translate-x-6">
+          <Link href="/">hyongti</Link>
+        </div>
         <div className="relative row-start-2 h-full w-full">
           <div className="absolute top-0 left-0 flex h-[200%] w-full -translate-y-1/2 flex-col justify-center transition-transform sm:translate-y-0">
             <ul className="flex h-full items-center justify-center gap-5 text-xs font-semibold">
