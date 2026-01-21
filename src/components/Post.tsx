@@ -1,11 +1,17 @@
-import type { Post } from "../../tina/__generated__/types";
 import Link from "next/link";
 
-interface Props {
-  post: Post;
+interface PostProps {
+  post: {
+    id: string;
+    title: string;
+    date: string;
+    _sys: {
+      filename: string;
+    };
+  };
 }
 
-const BlogPost = ({ post }: Props) => {
+const BlogPost = ({ post }: PostProps) => {
   return (
     <Link
       href={`/blog/${post._sys.filename}`}
