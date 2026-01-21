@@ -26,6 +26,7 @@ jobs:
       - name: Install and Build 🔧
         run: |
           pnpm install
+          pnpm contentlayer2 build
           pnpm build && touch ./out/.nojekyll
 
       - name: Deploy 🚀
