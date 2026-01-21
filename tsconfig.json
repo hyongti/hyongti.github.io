@@ -19,9 +19,6 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "contentlayer2/generated": [
-        "./.contentlayer/generated"
-      ],
       "*": [
         "src/*"
       ]
@@ -39,7 +36,7 @@
     "**/*.tsx",
     "src/pages/index.js",
     ".next/types/**/*.ts",
-    ".contentlayer/generated"
+    "tina/__generated__/**/*"
   ],
   "exclude": [
     "node_modules"

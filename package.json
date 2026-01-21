@@ -1,22 +1,22 @@
 {
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "tinacms dev -c \"next dev --turbopack\"",
+    "build": "tinacms build && next build",
     "deploy": "next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && git subtree push --prefix out origin gh-pages",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "contentlayer2": "^0.5.4",
     "next": "^15.1.6",
-    "next-contentlayer2": "^0.5.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tinacms": "^3.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@tinacms/cli": "^2.1.1",
     "@types/node": "^22.10.7",
     "@types/react": "^19.0.7",
     "prettier": "^3.4.2",

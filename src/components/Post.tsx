@@ -1,4 +1,4 @@
-import type { Post } from "contentlayer2/generated";
+import type { Post } from "../../tina/__generated__/types";
 import Link from "next/link";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 const BlogPost = ({ post }: Props) => {
   return (
     <Link
-      href={`/blog/${post._raw.flattenedPath}`}
+      href={`/blog/${post._sys.filename}`}
       passHref
       className="w-full my-7"
     >

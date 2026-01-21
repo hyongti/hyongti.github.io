@@ -1,34 +1,51 @@
 import Content from "components/layouts/Content";
-import { allPosts } from "contentlayer2/generated";
-import { InferGetStaticPropsType } from "next";
-import { useMDXComponent } from "next-contentlayer2/hooks";
+import client from "../../../tina/__generated__/client";
+import { InferGetStaticPropsType, GetStaticPaths } from "next";
+import { useTina } from "tinacms/dist/react";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
 
-const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const MDXComponent = useMDXComponent(post.body.code);
+const Post = ({ data, query, variables }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data: tinaData } = useTina({
+    query,
+    variables,
+    data,
+  });
+
+  const post = tinaData.post;
 
   return (
     <Content>
-      {/* TODO: prose 관련 css 설정 필요, 현재 링크나 코드블록도 그냥 검정 글씨 */}
       <article className="prose mt-10 w-full">
         <h1 className="text-sky-700">{post.title}</h1>
-        <MDXComponent />
+        <TinaMarkdown content={post.body} />
       </article>
     </Content>
   );
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postsResponse = await client.queries.postConnection();
+
+  const paths = postsResponse.data.postConnection.edges?.map((edge) => ({
+    params: { id: edge?.node?._sys.filename },
+  })).filter(Boolean) || [];
+
   return {
-    paths: allPosts.map((p) => ({ params: { id: p._raw.flattenedPath } })),
+    paths,
     fallback: false,
   };
 };
 
-export const getStaticProps = async ({ params }) => {
-  const post = allPosts.find((p) => p._raw.flattenedPath === params.id);
+export const getStaticProps = async ({ params }: { params: { id: string } }) => {
+  const tinaProps = await client.queries.post({
+    relativePath: `${params.id}.mdx`,
+  });
+
   return {
     props: {
-      post,
+      data: tinaProps.data,
+      query: tinaProps.query,
+      variables: tinaProps.variables,
     },
   };
 };

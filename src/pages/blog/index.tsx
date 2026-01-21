@@ -1,22 +1,27 @@
 import Content from "components/layouts/Content";
 import Post from "components/Post";
-import { allPosts } from "contentlayer2/generated";
+import client from "../../../tina/__generated__/client";
 import { InferGetStaticPropsType } from "next";
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Content>
       {posts.map((post) => (
-        <Post key={post._id} post={post} />
+        <Post key={post.id} post={post} />
       ))}
     </Content>
   );
 };
 
 export const getStaticProps = async () => {
-  const posts = allPosts.sort(
-    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
-  );
+  const postsResponse = await client.queries.postConnection({
+    sort: "date",
+  });
+
+  const posts = postsResponse.data.postConnection.edges
+    ?.map((edge) => edge?.node)
+    .filter(Boolean)
+    .reverse() || [];
 
   return {
     props: {

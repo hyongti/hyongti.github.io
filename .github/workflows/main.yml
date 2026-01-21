@@ -24,9 +24,11 @@ jobs:
           cache: 'pnpm'
 
       - name: Install and Build 🔧
+        env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
         run: |
           pnpm install
-          pnpm contentlayer2 build
           pnpm build && touch ./out/.nojekyll
 
       - name: Deploy 🚀
