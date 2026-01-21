@@ -4,20 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-Next.js 14와 MDX로 구축된 개인 블로그/포트폴리오 웹사이트. GitHub Pages에 정적 사이트로 배포됨.
+Next.js 15와 MDX로 구축된 개인 블로그/포트폴리오 웹사이트. GitHub Pages에 정적 사이트로 배포됨.
 
 ## 명령어
 
 ```bash
-yarn dev      # 개발 서버 실행
-yarn build    # 프로덕션 빌드 (next build && next export)
-yarn lint     # ESLint 실행
-yarn deploy   # 빌드 후 gh-pages 브랜치에 배포
+pnpm dev      # 개발 서버 실행 (Turbopack)
+pnpm build    # 프로덕션 빌드
+pnpm lint     # ESLint 실행
+pnpm deploy   # 빌드 후 gh-pages 브랜치에 배포
 ```
 
 ## 아키텍처
 
-**기술 스택:** Next.js 14, React 18, TypeScript, Tailwind CSS, Contentlayer (MDX 콘텐츠 관리)
+**기술 스택:** Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, Contentlayer2 (MDX 콘텐츠 관리)
 
 **주요 디렉토리:**
 - `src/pages/` - Next.js 페이지 라우트 (blog, about, projects)
@@ -27,8 +27,8 @@ yarn deploy   # 빌드 후 gh-pages 브랜치에 배포
 
 **콘텐츠 시스템:**
 - 블로그 글은 `/posts/` 디렉토리에 MDX 파일로 저장 (프론트매터: `title`, `date`, `description`)
-- Contentlayer가 MDX를 처리하고 타입이 지정된 콘텐츠 생성 (설정: `contentlayer.config.ts`)
-- `contentlayer/generated`에서 `allPosts`로 글 목록 접근
+- Contentlayer2가 MDX를 처리하고 타입이 지정된 콘텐츠 생성 (설정: `contentlayer.config.ts`)
+- `contentlayer2/generated`에서 `allPosts`로 글 목록 접근
 
 **라우팅:**
 - `/` → `/blog`로 리다이렉트
@@ -40,9 +40,9 @@ yarn deploy   # 빌드 후 gh-pages 브랜치에 배포
 
 ## 설정 파일
 
-- `next.config.js` - Contentlayer 플러그인, 정적 익스포트 설정
+- `next.config.js` - Contentlayer2 플러그인, 정적 익스포트 설정
 - `contentlayer.config.ts` - Post 문서 스키마 정의
-- `tailwind.config.js` - 타이포그래피 플러그인 포함 Tailwind 설정
+- `postcss.config.mjs` - Tailwind CSS 4 PostCSS 설정
 
 ## 알려진 TODO
 
