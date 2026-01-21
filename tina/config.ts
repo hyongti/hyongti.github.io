@@ -1,13 +1,16 @@
 import { defineConfig } from "tinacms";
 
+const branch =
+  process.env.GITHUB_BRANCH ||
+  process.env.VERCEL_GIT_COMMIT_REF ||
+  process.env.HEAD ||
+  "main";
+
 export default defineConfig({
-  branch:
-    process.env.TINA_BRANCH ||
-    process.env.VERCEL_GIT_COMMIT_REF ||
-    process.env.HEAD ||
-    "main",
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
-  token: process.env.TINA_TOKEN || "",
+  branch,
+
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
+  token: process.env.TINA_TOKEN,
 
   build: {
     outputFolder: "admin",
@@ -53,6 +56,9 @@ export default defineConfig({
             isBody: true,
           },
         ],
+        ui: {
+          router: ({ document }) => `/blog/${document._sys.filename}`,
+        },
       },
     ],
   },
