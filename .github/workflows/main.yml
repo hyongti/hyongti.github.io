@@ -29,7 +29,9 @@ jobs:
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
         run: |
           pnpm install
-          pnpm build && touch ./out/.nojekyll
+          pnpm build
+          rm -f ./out/admin/.gitignore
+          touch ./out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
