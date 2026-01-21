@@ -1,7 +1,7 @@
 import Content from "components/layouts/Content";
-import { allPosts } from "contentlayer/generated";
+import { allPosts } from "contentlayer2/generated";
 import { InferGetStaticPropsType } from "next";
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { useMDXComponent } from "next-contentlayer2/hooks";
 
 const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const MDXComponent = useMDXComponent(post.body.code);

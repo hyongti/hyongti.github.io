@@ -1,4 +1,4 @@
-import type { Post } from "contentlayer/generated";
+import type { Post } from "contentlayer2/generated";
 import Link from "next/link";
 
 interface Props {
