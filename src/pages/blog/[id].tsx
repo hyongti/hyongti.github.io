@@ -1,4 +1,5 @@
 import Content from "components/layouts/Content";
+import { LinkCard } from "components/LinkCard";
 import client from "../../../tina/__generated__/client";
 import { InferGetStaticPropsType, GetStaticPaths } from "next";
 import { useTina } from "tinacms/dist/react";
@@ -40,6 +41,9 @@ const components = {
     <code className="bg-gray-200 text-red-600 px-1 py-0.5 rounded text-sm">
       {props.children}
     </code>
+  ),
+  LinkCard: (props: { url: string; title?: string; description?: string; image?: string }) => (
+    <LinkCard url={props.url} title={props.title} description={props.description} image={props.image} />
   ),
 };
 

@@ -54,6 +54,35 @@ export default defineConfig({
             name: "body",
             label: "Body",
             isBody: true,
+            templates: [
+              {
+                name: "LinkCard",
+                label: "Link Card",
+                fields: [
+                  {
+                    name: "url",
+                    label: "URL",
+                    type: "string",
+                    required: true,
+                  },
+                  {
+                    name: "title",
+                    label: "Title (수동 입력, 선택사항)",
+                    type: "string",
+                  },
+                  {
+                    name: "description",
+                    label: "Description (수동 입력, 선택사항)",
+                    type: "string",
+                  },
+                  {
+                    name: "image",
+                    label: "Image URL (수동 입력, 선택사항)",
+                    type: "string",
+                  },
+                ],
+              },
+            ],
           },
         ],
         ui: {

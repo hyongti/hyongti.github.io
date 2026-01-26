@@ -46,7 +46,36 @@ var config_default = defineConfig({
             type: "rich-text",
             name: "body",
             label: "Body",
-            isBody: true
+            isBody: true,
+            templates: [
+              {
+                name: "LinkCard",
+                label: "Link Card",
+                fields: [
+                  {
+                    name: "url",
+                    label: "URL",
+                    type: "string",
+                    required: true
+                  },
+                  {
+                    name: "title",
+                    label: "Title (\uC218\uB3D9 \uC785\uB825, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "string"
+                  },
+                  {
+                    name: "description",
+                    label: "Description (\uC218\uB3D9 \uC785\uB825, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "string"
+                  },
+                  {
+                    name: "image",
+                    label: "Image URL (\uC218\uB3D9 \uC785\uB825, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "string"
+                  }
+                ]
+              }
+            ]
           }
         ],
         ui: {

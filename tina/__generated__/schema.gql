@@ -104,17 +104,22 @@ input StringFilter {
   in: [String]
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
+input PostBodyLinkCardFilter {
+  url: StringFilter
+  title: StringFilter
+  description: StringFilter
+  image: StringFilter
+}
+
+input PostBodyFilter {
+  LinkCard: PostBodyLinkCardFilter
 }
 
 input PostFilter {
   title: StringFilter
   date: StringFilter
   description: StringFilter
-  body: RichTextFilter
+  body: PostBodyFilter
 }
 
 type PostConnectionEdges {
