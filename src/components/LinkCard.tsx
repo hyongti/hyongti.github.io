@@ -1,4 +1,7 @@
+"use client";
+
 import Microlink from "@microlink/react";
+import { useState } from "react";
 
 type LinkCardProps = {
   url: string;
@@ -51,6 +54,8 @@ function CustomCard({ url, title, description, image }: LinkCardProps) {
 }
 
 export function LinkCard({ url, title, description, image }: LinkCardProps) {
+  const [error, setError] = useState(false);
+
   // 수동 입력이 있으면 커스텀 카드 렌더링
   if (title) {
     return (
@@ -63,18 +68,23 @@ export function LinkCard({ url, title, description, image }: LinkCardProps) {
     );
   }
 
-  // URL만 있으면 Microlink 사용, 실패 시 폴백
+  // 에러 발생 시 폴백
+  if (error) {
+    return (
+      <CustomCard
+        url={url}
+        description="링크를 미리 볼 수 없습니다. 클릭하여 방문하세요."
+      />
+    );
+  }
+
+  // URL만 있으면 Microlink 사용
   return (
     <Microlink
       url={url}
       size="large"
       style={{ width: "100%", margin: "1rem 0" }}
-      renderFallback={() => (
-        <CustomCard
-          url={url}
-          description="링크를 미리 볼 수 없습니다. 클릭하여 방문하세요."
-        />
-      )}
+      onError={() => setError(true)}
     />
   );
 }
