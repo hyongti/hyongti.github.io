@@ -58,7 +58,7 @@ const Post = ({ data, query, variables }: InferGetStaticPropsType<typeof getStat
 
   return (
     <Content>
-      <article className="prose mt-10 w-full max-w-none">
+      <article className="prose mt-10 w-full max-w-3xl mx-auto px-4">
         <h1 className="text-sky-700">{post.title}</h1>
         <TinaMarkdown content={post.body} components={components} />
       </article>
