@@ -167,6 +167,7 @@ export type DocumentNode = Post | Folder;
 
 export type Post = Node & Document & {
   __typename?: 'Post';
+  slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
   date: Scalars['String']['output'];
   description: Scalars['String']['output'];
@@ -190,11 +191,17 @@ export type PostBodyLinkCardFilter = {
   image?: InputMaybe<StringFilter>;
 };
 
+export type PostBodyYouTubeFilter = {
+  id?: InputMaybe<StringFilter>;
+};
+
 export type PostBodyFilter = {
   LinkCard?: InputMaybe<PostBodyLinkCardFilter>;
+  YouTube?: InputMaybe<PostBodyYouTubeFilter>;
 };
 
 export type PostFilter = {
+  slug?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   date?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
@@ -280,20 +287,21 @@ export type DocumentMutation = {
 };
 
 export type PostMutation = {
+  slug?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type PostPartsFragment = { __typename: 'Post', title: string, date: string, description: string, body?: any | null };
+export type PostPartsFragment = { __typename: 'Post', slug: string, title: string, date: string, description: string, body?: any | null };
 
 export type PostQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -305,11 +313,12 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const PostPartsFragmentDoc = gql`
     fragment PostParts on Post {
   __typename
+  slug
   title
   date
   description

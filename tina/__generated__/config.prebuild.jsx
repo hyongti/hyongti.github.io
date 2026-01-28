@@ -25,9 +25,14 @@ var config_default = defineConfig({
         fields: [
           {
             type: "string",
+            name: "slug",
+            label: "Slug (\uD30C\uC77C\uBA85, \uC601\uBB38\uC73C\uB85C \uC785\uB825)",
+            required: true
+          },
+          {
+            type: "string",
             name: "title",
             label: "Title",
-            isTitle: true,
             required: true
           },
           {
@@ -74,11 +79,30 @@ var config_default = defineConfig({
                     type: "string"
                   }
                 ]
+              },
+              {
+                name: "YouTube",
+                label: "YouTube",
+                fields: [
+                  {
+                    name: "id",
+                    label: "Video ID (\uC608: dQw4w9WgXcQ)",
+                    type: "string",
+                    required: true
+                  }
+                ]
               }
             ]
           }
         ],
         ui: {
+          filename: {
+            readonly: true,
+            slugify: (values) => {
+              if (!values?.slug) return "untitled";
+              return values.slug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+            }
+          },
           router: ({ document }) => `/blog/${document._sys.filename}`
         }
       }

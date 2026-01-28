@@ -88,6 +88,7 @@ type Collection {
 union DocumentNode = Post | Folder
 
 type Post implements Node & Document {
+  slug: String!
   title: String!
   date: String!
   description: String!
@@ -111,11 +112,17 @@ input PostBodyLinkCardFilter {
   image: StringFilter
 }
 
+input PostBodyYouTubeFilter {
+  id: StringFilter
+}
+
 input PostBodyFilter {
   LinkCard: PostBodyLinkCardFilter
+  YouTube: PostBodyYouTubeFilter
 }
 
 input PostFilter {
+  slug: StringFilter
   title: StringFilter
   date: StringFilter
   description: StringFilter
@@ -153,6 +160,7 @@ input DocumentMutation {
 }
 
 input PostMutation {
+  slug: String
   title: String
   date: String
   description: String

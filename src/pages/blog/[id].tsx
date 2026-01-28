@@ -1,5 +1,6 @@
 import Content from "components/layouts/Content";
 import { LinkCard } from "components/LinkCard";
+import { YouTube } from "components/YouTube";
 import client from "../../../tina/__generated__/client";
 import { InferGetStaticPropsType, GetStaticPaths } from "next";
 import { useTina } from "tinacms/dist/react";
@@ -45,6 +46,7 @@ const components = {
   LinkCard: (props: { url: string; title?: string; description?: string; image?: string }) => (
     <LinkCard url={props.url} title={props.title} description={props.description} image={props.image} />
   ),
+  YouTube: (props: { id: string }) => <YouTube id={props.id} />,
 };
 
 const Post = ({ data, query, variables }: InferGetStaticPropsType<typeof getStaticProps>) => {
