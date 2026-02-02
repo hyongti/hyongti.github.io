@@ -1,4 +1,5 @@
 import Content from "components/layouts/Content";
+import SEO, { SITE_URL } from "components/SEO";
 import { LinkCard } from "components/LinkCard";
 import { YouTube } from "components/YouTube";
 import client from "../../../tina/__generated__/client";
@@ -6,6 +7,7 @@ import { InferGetStaticPropsType, GetStaticPaths } from "next";
 import { useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { useEffect, useRef } from "react";
+import Head from "next/head";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
@@ -49,7 +51,7 @@ const components = {
   YouTube: (props: { id: string }) => <YouTube id={props.id} />,
 };
 
-const Post = ({ data, query, variables }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Post = ({ data, query, variables, slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: tinaData } = useTina({
     query,
     variables,
@@ -57,9 +59,35 @@ const Post = ({ data, query, variables }: InferGetStaticPropsType<typeof getStat
   });
 
   const post = tinaData.post;
+  const url = `${SITE_URL}/blog/${slug}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    datePublished: post.date || undefined,
+    description: post.description || "",
+    author: {
+      "@type": "Person",
+      name: "hyongti",
+    },
+  };
 
   return (
     <Content>
+      <SEO
+        title={post.title}
+        description={post.description || undefined}
+        url={url}
+        type="article"
+        publishedAt={post.date || undefined}
+      />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </Head>
       <article className="prose mt-10 w-full max-w-3xl mx-auto px-4">
         <h1 className="text-sky-700">{post.title}</h1>
         <TinaMarkdown content={post.body} components={components} />
@@ -91,6 +119,7 @@ export const getStaticProps = async ({ params }: { params: { id: string } }) => 
       data: tinaProps.data,
       query: tinaProps.query,
       variables: tinaProps.variables,
+      slug: params.id,
     },
   };
 };
