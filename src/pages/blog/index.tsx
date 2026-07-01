@@ -5,6 +5,17 @@ import client from "../../../tina/__generated__/client";
 import { InferGetStaticPropsType } from "next";
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  // 시리즈별 첫 글(slug) — chip 클릭 시 이동 대상
+  const seriesFirst: Record<string, string> = {};
+  for (const post of posts) {
+    if (post.series && !(post.series in seriesFirst)) {
+      const first = posts
+        .filter((p) => p.series === post.series)
+        .sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0))[0];
+      if (first) seriesFirst[post.series] = first._sys.filename;
+    }
+  }
+
   return (
     <Content>
       <SEO
@@ -14,7 +25,11 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
       />
       <div className="w-full max-w-3xl mx-auto px-4 flex flex-col gap-y-6">
         {posts.map((post) => (
-          <Post key={post.id} post={post} />
+          <Post
+            key={post.id}
+            post={post}
+            seriesFirstSlug={post.series ? seriesFirst[post.series] : undefined}
+          />
         ))}
       </div>
     </Content>
@@ -26,10 +41,11 @@ export const getStaticProps = async () => {
     sort: "date",
   });
 
-  const posts = postsResponse.data.postConnection.edges
-    ?.map((edge) => edge?.node)
-    .filter(Boolean)
-    .reverse() || [];
+  const posts =
+    postsResponse.data.postConnection.edges
+      ?.map((edge) => edge?.node)
+      .filter(Boolean)
+      .reverse() || [];
 
   return {
     props: {

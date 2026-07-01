@@ -171,6 +171,8 @@ export type Post = Node & Document & {
   title: Scalars['String']['output'];
   date: Scalars['String']['output'];
   description: Scalars['String']['output'];
+  series?: Maybe<Scalars['String']['output']>;
+  seriesOrder?: Maybe<Scalars['Float']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -184,6 +186,16 @@ export type StringFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type NumberFilter = {
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+};
+
 export type PostBodyLinkCardFilter = {
   url?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
@@ -193,11 +205,31 @@ export type PostBodyLinkCardFilter = {
 
 export type PostBodyYouTubeFilter = {
   id?: InputMaybe<StringFilter>;
+  start?: InputMaybe<NumberFilter>;
+  end?: InputMaybe<NumberFilter>;
+};
+
+export type PostBodyVideoFilter = {
+  src?: InputMaybe<StringFilter>;
+  caption?: InputMaybe<StringFilter>;
+};
+
+export type RichTextFilter = {
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type PostBodyCalloutFilter = {
+  icon?: InputMaybe<StringFilter>;
+  children?: InputMaybe<RichTextFilter>;
 };
 
 export type PostBodyFilter = {
   LinkCard?: InputMaybe<PostBodyLinkCardFilter>;
   YouTube?: InputMaybe<PostBodyYouTubeFilter>;
+  Video?: InputMaybe<PostBodyVideoFilter>;
+  Callout?: InputMaybe<PostBodyCalloutFilter>;
 };
 
 export type PostFilter = {
@@ -205,6 +237,8 @@ export type PostFilter = {
   title?: InputMaybe<StringFilter>;
   date?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
+  series?: InputMaybe<StringFilter>;
+  seriesOrder?: InputMaybe<NumberFilter>;
   body?: InputMaybe<PostBodyFilter>;
 };
 
@@ -291,17 +325,19 @@ export type PostMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  series?: InputMaybe<Scalars['String']['input']>;
+  seriesOrder?: InputMaybe<Scalars['Float']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type PostPartsFragment = { __typename: 'Post', slug: string, title: string, date: string, description: string, body?: any | null };
+export type PostPartsFragment = { __typename: 'Post', slug: string, title: string, date: string, description: string, series?: string | null, seriesOrder?: number | null, body?: any | null };
 
 export type PostQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, series?: string | null, seriesOrder?: number | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -313,7 +349,7 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, slug: string, title: string, date: string, description: string, series?: string | null, seriesOrder?: number | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const PostPartsFragmentDoc = gql`
     fragment PostParts on Post {
@@ -322,6 +358,8 @@ export const PostPartsFragmentDoc = gql`
   title
   date
   description
+  series
+  seriesOrder
   body
 }
     `;

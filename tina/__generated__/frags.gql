@@ -4,5 +4,7 @@ fragment PostParts on Post {
   title
   date
   description
+  series
+  seriesOrder
   body
 }

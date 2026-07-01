@@ -55,6 +55,16 @@ export default defineConfig({
             required: true,
           },
           {
+            type: "string",
+            name: "series",
+            label: "시리즈 (선택사항)",
+          },
+          {
+            type: "number",
+            name: "seriesOrder",
+            label: "시리즈 내 순서 (선택사항)",
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
@@ -96,6 +106,49 @@ export default defineConfig({
                     label: "Video ID (예: dQw4w9WgXcQ)",
                     type: "string",
                     required: true,
+                  },
+                  {
+                    name: "start",
+                    label: "시작 시간 (초, 선택사항)",
+                    type: "number",
+                  },
+                  {
+                    name: "end",
+                    label: "끝 시간 (초, 선택사항)",
+                    type: "number",
+                  },
+                ],
+              },
+              {
+                name: "Video",
+                label: "Video",
+                fields: [
+                  {
+                    name: "src",
+                    label: "동영상 경로 (예: /uploads/coderain.mp4)",
+                    type: "string",
+                    required: true,
+                  },
+                  {
+                    name: "caption",
+                    label: "캡션 (선택사항)",
+                    type: "string",
+                  },
+                ],
+              },
+              {
+                name: "Callout",
+                label: "Callout (강조 상자)",
+                fields: [
+                  {
+                    name: "icon",
+                    label: "아이콘 (이모지, 선택사항)",
+                    type: "string",
+                  },
+                  {
+                    name: "children",
+                    label: "내용",
+                    type: "rich-text",
                   },
                 ],
               },

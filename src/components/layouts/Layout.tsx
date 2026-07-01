@@ -29,7 +29,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Head>
       <SEO />
       <Navbar />
-      <main className="w-full p-3 pt-28">{children}</main>
+      <main className="w-full p-3 pt-28 pb-20">{children}</main>
     </div>
   );
 };

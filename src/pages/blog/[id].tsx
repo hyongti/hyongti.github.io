@@ -2,6 +2,13 @@ import Content from "components/layouts/Content";
 import SEO, { SITE_URL } from "components/SEO";
 import { LinkCard } from "components/LinkCard";
 import { YouTube } from "components/YouTube";
+import { Video } from "components/Video";
+import { Callout } from "components/Callout";
+import { SeriesNav } from "components/SeriesNav";
+import { PostNav } from "components/PostNav";
+import { ViewCounter } from "components/ViewCounter";
+import { LikeButton } from "components/LikeButton";
+import { Comments } from "components/Comments";
 import client from "../../../tina/__generated__/client";
 import { InferGetStaticPropsType, GetStaticPaths } from "next";
 import { useTina } from "tinacms/dist/react";
@@ -48,10 +55,20 @@ const components = {
   LinkCard: (props: { url: string; title?: string; description?: string; image?: string }) => (
     <LinkCard url={props.url} title={props.title} description={props.description} image={props.image} />
   ),
-  YouTube: (props: { id: string }) => <YouTube id={props.id} />,
+  YouTube: (props: { id: string; start?: number; end?: number }) => (
+    <YouTube id={props.id} start={props.start} end={props.end} />
+  ),
+  Video: (props: { src: string; caption?: string }) => (
+    <Video src={props.src} caption={props.caption} />
+  ),
+  Callout: (props: { icon?: string; children?: any }) => (
+    <Callout icon={props.icon}>
+      <TinaMarkdown content={props.children} />
+    </Callout>
+  ),
 };
 
-const Post = ({ data, query, variables, slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Post = ({ data, query, variables, slug, seriesPosts, prev, next }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: tinaData } = useTina({
     query,
     variables,
@@ -60,11 +77,14 @@ const Post = ({ data, query, variables, slug }: InferGetStaticPropsType<typeof g
 
   const post = tinaData.post;
   const url = `${SITE_URL}/blog/${slug}`;
+  const fullTitle = post.series
+    ? `${post.series}${post.seriesOrder ? ` (${post.seriesOrder})` : ""} — ${post.title}`
+    : post.title;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: post.title,
+    headline: fullTitle,
     datePublished: post.date || undefined,
     description: post.description || "",
     author: {
@@ -76,7 +96,7 @@ const Post = ({ data, query, variables, slug }: InferGetStaticPropsType<typeof g
   return (
     <Content>
       <SEO
-        title={post.title}
+        title={fullTitle}
         description={post.description || undefined}
         url={url}
         type="article"
@@ -89,8 +109,33 @@ const Post = ({ data, query, variables, slug }: InferGetStaticPropsType<typeof g
         />
       </Head>
       <article className="prose mt-10 w-full max-w-3xl mx-auto px-4">
-        <h1 className="text-sky-700">{post.title}</h1>
+        <div className="not-prose mb-8">
+          {post.series && (
+            <p className="text-sm font-semibold text-sky-600">
+              {post.series}
+              {post.seriesOrder ? ` (${post.seriesOrder})` : ""}
+            </p>
+          )}
+          <h1 className="mt-1 text-3xl font-extrabold text-sky-700 sm:text-4xl">
+            {post.title}
+          </h1>
+          <div className="mt-3 flex items-center gap-2 text-xs text-gray-400">
+            <span>{post.date}</span>
+            <span>·</span>
+            <ViewCounter slug={slug} />
+          </div>
+        </div>
         <TinaMarkdown content={post.body} components={components} />
+        <LikeButton slug={slug} />
+        {post.series && (
+          <SeriesNav
+            series={post.series}
+            posts={seriesPosts}
+            currentSlug={slug}
+          />
+        )}
+        <PostNav prev={prev} next={next} />
+        <Comments slug={slug} />
       </article>
     </Content>
   );
@@ -109,10 +154,45 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+type SeriesItem = { title: string; slug: string; order: number };
+type NavPost = { title: string; slug: string };
+
 export const getStaticProps = async ({ params }: { params: { id: string } }) => {
   const tinaProps = await client.queries.post({
     relativePath: `${params.id}.mdx`,
   });
+  const current = tinaProps.data.post;
+
+  // 전체 글 (날짜 오름차순)
+  const all = await client.queries.postConnection({ sort: "date" });
+  const nodes = (all.data.postConnection.edges ?? [])
+    .map((edge) => edge?.node)
+    .filter(Boolean);
+
+  // 같은 시리즈 목차
+  let seriesPosts: SeriesItem[] = [];
+  if (current.series) {
+    seriesPosts = nodes
+      .filter((node) => node!.series === current.series)
+      .map((node) => ({
+        title: node!.title,
+        slug: node!._sys.filename,
+        order: node!.seriesOrder ?? 0,
+      }))
+      .sort((a, b) => a.order - b.order);
+  }
+
+  // 이전/다음 글 (시리즈 무관, 날짜순)
+  const idx = nodes.findIndex((node) => node!._sys.filename === params.id);
+  const olderNode = idx > 0 ? nodes[idx - 1] : null;
+  const newerNode =
+    idx >= 0 && idx < nodes.length - 1 ? nodes[idx + 1] : null;
+  const prev: NavPost | null = olderNode
+    ? { title: olderNode.title, slug: olderNode._sys.filename }
+    : null;
+  const next: NavPost | null = newerNode
+    ? { title: newerNode.title, slug: newerNode._sys.filename }
+    : null;
 
   return {
     props: {
@@ -120,6 +200,9 @@ export const getStaticProps = async ({ params }: { params: { id: string } }) => 
       query: tinaProps.query,
       variables: tinaProps.variables,
       slug: params.id,
+      seriesPosts,
+      prev,
+      next,
     },
   };
 };

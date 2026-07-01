@@ -92,6 +92,8 @@ type Post implements Node & Document {
   title: String!
   date: String!
   description: String!
+  series: String
+  seriesOrder: Float
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -105,6 +107,16 @@ input StringFilter {
   in: [String]
 }
 
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
 input PostBodyLinkCardFilter {
   url: StringFilter
   title: StringFilter
@@ -114,11 +126,31 @@ input PostBodyLinkCardFilter {
 
 input PostBodyYouTubeFilter {
   id: StringFilter
+  start: NumberFilter
+  end: NumberFilter
+}
+
+input PostBodyVideoFilter {
+  src: StringFilter
+  caption: StringFilter
+}
+
+input RichTextFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+}
+
+input PostBodyCalloutFilter {
+  icon: StringFilter
+  children: RichTextFilter
 }
 
 input PostBodyFilter {
   LinkCard: PostBodyLinkCardFilter
   YouTube: PostBodyYouTubeFilter
+  Video: PostBodyVideoFilter
+  Callout: PostBodyCalloutFilter
 }
 
 input PostFilter {
@@ -126,6 +158,8 @@ input PostFilter {
   title: StringFilter
   date: StringFilter
   description: StringFilter
+  series: StringFilter
+  seriesOrder: NumberFilter
   body: PostBodyFilter
 }
 
@@ -164,6 +198,8 @@ input PostMutation {
   title: String
   date: String
   description: String
+  series: String
+  seriesOrder: Float
   body: JSON
 }
 

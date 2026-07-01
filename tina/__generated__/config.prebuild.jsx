@@ -48,6 +48,16 @@ var config_default = defineConfig({
             required: true
           },
           {
+            type: "string",
+            name: "series",
+            label: "\uC2DC\uB9AC\uC988 (\uC120\uD0DD\uC0AC\uD56D)"
+          },
+          {
+            type: "number",
+            name: "seriesOrder",
+            label: "\uC2DC\uB9AC\uC988 \uB0B4 \uC21C\uC11C (\uC120\uD0DD\uC0AC\uD56D)"
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
@@ -89,6 +99,49 @@ var config_default = defineConfig({
                     label: "Video ID (\uC608: dQw4w9WgXcQ)",
                     type: "string",
                     required: true
+                  },
+                  {
+                    name: "start",
+                    label: "\uC2DC\uC791 \uC2DC\uAC04 (\uCD08, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "number"
+                  },
+                  {
+                    name: "end",
+                    label: "\uB05D \uC2DC\uAC04 (\uCD08, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "number"
+                  }
+                ]
+              },
+              {
+                name: "Video",
+                label: "Video",
+                fields: [
+                  {
+                    name: "src",
+                    label: "\uB3D9\uC601\uC0C1 \uACBD\uB85C (\uC608: /uploads/coderain.mp4)",
+                    type: "string",
+                    required: true
+                  },
+                  {
+                    name: "caption",
+                    label: "\uCEA1\uC158 (\uC120\uD0DD\uC0AC\uD56D)",
+                    type: "string"
+                  }
+                ]
+              },
+              {
+                name: "Callout",
+                label: "Callout (\uAC15\uC870 \uC0C1\uC790)",
+                fields: [
+                  {
+                    name: "icon",
+                    label: "\uC544\uC774\uCF58 (\uC774\uBAA8\uC9C0, \uC120\uD0DD\uC0AC\uD56D)",
+                    type: "string"
+                  },
+                  {
+                    name: "children",
+                    label: "\uB0B4\uC6A9",
+                    type: "rich-text"
                   }
                 ]
               }
