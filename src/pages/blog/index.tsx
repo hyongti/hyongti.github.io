@@ -17,7 +17,7 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   }
 
   return (
-    <Content>
+    <Content description="BLOG">
       <SEO
         title="블로그"
         description="개발 블로그 글 목록"

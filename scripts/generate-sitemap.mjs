@@ -13,7 +13,7 @@ const blogSlugs = fs
   .filter((f) => f.endsWith(".html") && f !== "index.html")
   .map((f) => f.replace(".html", ""));
 
-const staticPages = ["/blog", "/about", "/projects"];
+const staticPages = ["/blog", "/about", "/work"];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
