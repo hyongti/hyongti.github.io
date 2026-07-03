@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="aReq" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="aRes" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <!-- Left: my computer — the new hire (Claude Code) + hands/feet (tools) -->
+  <rect x="20" y="30" width="252" height="188" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="146" y="62" text-anchor="middle" font-size="18" font-weight="700" fill="#1e3a8a">내 컴퓨터</text>
+  <text x="146" y="96" text-anchor="middle" font-size="15" font-weight="600" fill="#1e293b">Claude Code</text>
+  <text x="146" y="120" text-anchor="middle" font-size="12" fill="#64748b">신입사원</text>
+  <rect x="40" y="164" width="212" height="30" rx="15" fill="#dbeafe"/>
+  <text x="146" y="184" text-anchor="middle" font-size="12" fill="#1e40af">손발: Read · Write · Edit · Bash</text>
+
+  <!-- Right: Anthropic server — the brain (model) -->
+  <rect x="488" y="30" width="252" height="188" rx="14" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+  <text x="614" y="62" text-anchor="middle" font-size="16" font-weight="700" fill="#065f46">Anthropic 서버 · 미국</text>
+  <text x="614" y="96" text-anchor="middle" font-size="15" font-weight="600" fill="#1e293b">Claude 모델</text>
+  <text x="614" y="120" text-anchor="middle" font-size="12" fill="#64748b">머리 · 두뇌</text>
+  <rect x="508" y="164" width="212" height="30" rx="15" fill="#dcfce7"/>
+  <text x="614" y="184" text-anchor="middle" font-size="12" fill="#166534">Opus · Sonnet · Haiku</text>
+
+  <!-- Loop arrows in the middle gap -->
+  <text x="380" y="86" text-anchor="middle" font-size="12" fill="#2563eb">① 상황·결과 전달</text>
+  <line x1="276" y1="98" x2="484" y2="98" stroke="#2563eb" stroke-width="2.5" marker-end="url(#aReq)"/>
+
+  <text x="380" y="132" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ea580c">↻ 끝날 때까지 반복</text>
+
+  <line x1="484" y1="152" x2="276" y2="152" stroke="#059669" stroke-width="2.5" marker-end="url(#aRes)"/>
+  <text x="380" y="172" text-anchor="middle" font-size="12" fill="#059669">② "이 도구 써!" 지시</text>
+</svg>
