@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     // TODO: 코드 정리 필요..
     <header
-      className={`fixed top-0 left-0 w-full ${
+      className={`fixed top-0 left-0 z-50 w-full ${
         direction === "up"
           ? open
             ? "translate-y-0 sm:-translate-y-1/2"
